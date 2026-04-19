@@ -1,0 +1,16 @@
+#!/bin/bash
+# 1. Cấp quyền truy cập bộ nhớ cho Termux
+termux-setup-storage
+sleep 2
+
+# 2. Cài đặt môi trường (Python và tsu để chạy Root)
+pkg update -y && pkg upgrade -y
+pkg install python tsu -y
+
+# 3. Tải file main.py đã mã hóa của bạn về máy khách
+# Link này được lấy từ link RAW file main.py bạn vừa gửi
+curl -o /sdcard/Download/main.py https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/main.py
+
+echo "------------------------------------------"
+echo "   DA CAI DAT XONG TOOL REJOIN BY PN      "
+echo "------------------------------------------"
