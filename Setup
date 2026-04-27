@@ -1,16 +1,52 @@
 #!/bin/bash
-# 1. Cấp quyền truy cập bộ nhớ cho Termux
+
+# PN TOOL REJOIN - Setup Script for Termux
+# Created by PN
+
+# Màu sắc
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+clear
+echo -e "${CYAN}==========================================${NC}"
+echo -e "${GREEN}      DANG CAI DAT PN TOOL REJOIN       ${NC}"
+echo -e "${CYAN}==========================================${NC}"
+
+# 1. Cấp quyền bộ nhớ
+echo -e "${YELLOW}[1/4] Cap quyen truy cap bo nho...${NC}"
 termux-setup-storage
 sleep 2
 
-# 2. Cài đặt môi trường (Python và tsu để chạy Root)
+# 2. Cap nhat he thong
+echo -e "${YELLOW}[2/4] Dang cap nhat moi truong...${NC}"
 pkg update -y && pkg upgrade -y
-pkg install python tsu -y
+pkg install python tsu curl -y
 
-# 3. Tải file main.py đã mã hóa của bạn về máy khách
-# Link này được lấy từ link RAW file main.py bạn vừa gửi
-curl -o /sdcard/Download/main.py https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/main.py
+# 3. Cai dat thu vien Python can thiet
+echo -e "${YELLOW}[3/4] Dang cai dat thu vien Python...${NC}"
+pip install requests
 
-echo "------------------------------------------"
-echo "   DA CAI DAT XONG TOOL REJOIN BY PN      "
-echo "------------------------------------------"
+# 4. Tai file tool ve
+echo -e "${YELLOW}[4/4] Dang tai file tool ve may...${NC}"
+# Duong dan luu file: Luu vao thu muc home cua Termux de chay cho on dinh
+# Sau do copy mot ban ra Download de de quan ly
+FILE_PATH="$HOME/pn.py"
+DOWNLOAD_URL="https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/pn.py"
+
+curl -L -o $FILE_PATH $DOWNLOAD_URL
+
+if [ -f "$FILE_PATH" ]; then
+    cp $FILE_PATH /sdcard/Download/pn.py
+    echo -e "${GREEN}------------------------------------------${NC}"
+    echo -e "${GREEN}   DA CAI DAT XONG TOOL REJOIN BY PN      ${NC}"
+    echo -e "${CYAN}   Cach chay tool:${NC}"
+    echo -e "${WHITE}   1. Chay truc tiep: ${NC}${YELLOW}python pn.py${NC}"
+    echo -e "${WHITE}   2. Chay voi quyen Root: ${NC}${YELLOW}tsu -c python pn.py${NC}"
+    echo -e "${GREEN}------------------------------------------${NC}"
+else
+    echo -e "${RED}Loi: Khong the tai file tu GitHub. Vui long kiem tra ket noi hoac link RAW!${NC}"
+fi
