@@ -1,18 +1,18 @@
 #!/bin/bash
-# PN TOOL REJOIN - Setup Script (Optimized for Python 3.13)
+# PN TOOL REJOIN - Setup Script (Full Support Root & Python 3.13)
 
 # 1. Cấp quyền & Cập nhật hệ thống
 termux-setup-storage
 sleep 2
 
-echo "Dang cap nhat he thong (Python 3.13)..."
+echo "Dang cap nhat he thong..."
 pkg update -y && pkg upgrade -y
 
-# 2. Cài đặt Python và các công cụ cần thiết (Mặc định sẽ là 3.13)
-echo "Dang cai dat Python..."
-pkg install python curl -y
+# 2. Cài đặt Python, Curl và TSU (Để chạy Root)
+echo "Dang cai dat Python & Root Tool..."
+pkg install python curl tsu -y
 
-# 3. Cài đặt thư viện requests cho Python 3.13
+# 3. Cài đặt thư viện requests
 echo "Dang cai dat thu vien..."
 pip install requests
 
@@ -21,13 +21,13 @@ FILE_PATH="/sdcard/Download/pn.py"
 DOWNLOAD_URL="https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/main.py"
 
 echo "Dang tai tool..."
-curl -L -o $FILE_PATH $DOWNLOAD_URL
+curl -L -o "$FILE_PATH" "$DOWNLOAD_URL"
 
 if [ -f "$FILE_PATH" ]; then
     echo "------------------------------------------"
     echo "    DA CAI DAT XONG TOOL REJOIN BY PN     "
-    echo "    Phien ban ho tro: Python 3.13+        "
-    echo "    Lenh chay: python pn.py               "
+    echo "    Yeu cau: May da Root (Magisk/KSU)     "
+    echo "    Lenh chay: Xem tai Discord            "
     echo "------------------------------------------"
 else
     echo "Loi: Khong the tai file!"
