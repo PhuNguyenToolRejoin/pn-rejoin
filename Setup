@@ -1,22 +1,20 @@
 #!/bin/bash
-# PN TOOL REJOIN - Setup Script (Auto Fix Python 3.11)
+# PN TOOL REJOIN - Setup Script (Optimized for Python 3.13)
 
 # 1. Cấp quyền & Cập nhật hệ thống
 termux-setup-storage
 sleep 2
 
-echo "Dang cap nhat he thong..."
+echo "Dang cap nhat he thong (Python 3.13)..."
 pkg update -y && pkg upgrade -y
 
-# 2. Thêm kho lưu trữ TUR và cài Python 3.11
-echo "Dang thiet lap Python 3.11 (Vui long cho...)"
-pkg install tur-repo -y
-pkg update -y
-pkg install python3.11 python-is-python3.11 curl -y
+# 2. Cài đặt Python và các công cụ cần thiết (Mặc định sẽ là 3.13)
+echo "Dang cai dat Python..."
+pkg install python curl -y
 
-# 3. Cài đặt thư viện cho bản 3.11
-echo "Dang cai dat thu vien Requests..."
-python3.11 -m pip install requests
+# 3. Cài đặt thư viện requests cho Python 3.13
+echo "Dang cai dat thu vien..."
+pip install requests
 
 # 4. Tải Tool
 FILE_PATH="/sdcard/Download/pn.py"
@@ -28,7 +26,7 @@ curl -L -o $FILE_PATH $DOWNLOAD_URL
 if [ -f "$FILE_PATH" ]; then
     echo "------------------------------------------"
     echo "    DA CAI DAT XONG TOOL REJOIN BY PN     "
-    echo "    He thong da tu dong ha cap xuong 3.11 "
+    echo "    Phien ban ho tro: Python 3.13+        "
     echo "    Lenh chay: python pn.py               "
     echo "------------------------------------------"
 else
