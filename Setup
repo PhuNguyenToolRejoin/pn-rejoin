@@ -32,21 +32,29 @@ pip install requests
 
 # 4. Tai file tool ve
 echo -e "${YELLOW}[4/4] Dang tai file tool ve may...${NC}"
-# Duong dan luu file: Luu vao thu muc home cua Termux de chay cho on dinh
-# Sau do copy mot ban ra Download de de quan ly
-FILE_PATH="$HOME/pn.py"
-DOWNLOAD_URL="https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/pn.py"
+# Luu file voi ten main.py
+FILE_PATH="$HOME/main.py"
+# LINK RAW CHUẨN ĐẾN main.py
+DOWNLOAD_URL="https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/main.py"
 
 curl -L -o $FILE_PATH $DOWNLOAD_URL
 
 if [ -f "$FILE_PATH" ]; then
-    cp $FILE_PATH /sdcard/Download/pn.py
+    # Copy sang thu muc Download để người dùng dễ thấy
+    cp $FILE_PATH /sdcard/Download/main.py
+    
+    # Tao alias 'pn' de chay nhanh tool main.py
+    echo "alias pn='export TERM=xterm-256color && cd /sdcard/Download && python main.py'" >> ~/.bashrc
+    
     echo -e "${GREEN}------------------------------------------${NC}"
     echo -e "${GREEN}   DA CAI DAT XONG TOOL REJOIN BY PN      ${NC}"
     echo -e "${CYAN}   Cach chay tool:${NC}"
-    echo -e "${WHITE}   1. Chay truc tiep: ${NC}${YELLOW}python pn.py${NC}"
-    echo -e "${WHITE}   2. Chay voi quyen Root: ${NC}${YELLOW}tsu -c python pn.py${NC}"
+    echo -e "${WHITE}   - Nhap lenh: ${NC}${YELLOW}pn${NC}"
+    echo -e "${WHITE}   - Hoac: ${NC}${YELLOW}python /sdcard/Download/main.py${NC}"
     echo -e "${GREEN}------------------------------------------${NC}"
+    # Kích hoạt alias ngay lập tức
+    source ~/.bashrc
 else
-    echo -e "${RED}Loi: Khong the tai file tu GitHub. Vui long kiem tra ket noi hoac link RAW!${NC}"
+    echo -e "${RED}Loi: Khong the tai file main.py tu GitHub.${NC}"
+    echo -e "${RED}Vui long kiem tra link RAW: $DOWNLOAD_URL${NC}"
 fi
