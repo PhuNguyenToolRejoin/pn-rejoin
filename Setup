@@ -1,60 +1,33 @@
 #!/bin/bash
+# PN TOOL REJOIN - Setup Script
+# Tải main.py từ GitHub và lưu thành pn.py trên máy khách
 
-# PN TOOL REJOIN - Setup Script for Termux
-# Created by PN
-
-# Màu sắc
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
-
-clear
-echo -e "${CYAN}==========================================${NC}"
-echo -e "${GREEN}      DANG CAI DAT PN TOOL REJOIN       ${NC}"
-echo -e "${CYAN}==========================================${NC}"
-
-# 1. Cấp quyền bộ nhớ
-echo -e "${YELLOW}[1/4] Cap quyen truy cap bo nho...${NC}"
+# 1. Cấp quyền & Cài đặt
 termux-setup-storage
 sleep 2
-
-# 2. Cap nhat he thong
-echo -e "${YELLOW}[2/4] Dang cap nhat moi truong...${NC}"
 pkg update -y && pkg upgrade -y
 pkg install python tsu curl -y
-
-# 3. Cai dat thu vien Python can thiet
-echo -e "${YELLOW}[3/4] Dang cai dat thu vien Python...${NC}"
 pip install requests
 
-# 4. Tai file tool ve
-echo -e "${YELLOW}[4/4] Dang tai file tool ve may...${NC}"
-# Luu file voi ten main.py
-FILE_PATH="$HOME/main.py"
-# LINK RAW CHUẨN ĐẾN main.py
+# 2. Tải Tool (Dùng link RAW và file main.py)
+# Lưu ý: Tôi tải file main.py nhưng lưu tên là pn.py để bạn chạy lệnh cũ vẫn được
+FILE_PATH="/sdcard/Download/pn.py"
 DOWNLOAD_URL="https://raw.githubusercontent.com/PhuNguyenToolRejoin/pn-rejoin/main/main.py"
 
+echo "Dang tai tool..."
 curl -L -o $FILE_PATH $DOWNLOAD_URL
 
 if [ -f "$FILE_PATH" ]; then
-    # Copy sang thu muc Download để người dùng dễ thấy
-    cp $FILE_PATH /sdcard/Download/main.py
-    
-    # Tao alias 'pn' de chay nhanh tool main.py
-    echo "alias pn='export TERM=xterm-256color && cd /sdcard/Download && python main.py'" >> ~/.bashrc
-    
-    echo -e "${GREEN}------------------------------------------${NC}"
-    echo -e "${GREEN}   DA CAI DAT XONG TOOL REJOIN BY PN      ${NC}"
-    echo -e "${CYAN}   Cach chay tool:${NC}"
-    echo -e "${WHITE}   - Nhap lenh: ${NC}${YELLOW}pn${NC}"
-    echo -e "${WHITE}   - Hoac: ${NC}${YELLOW}python /sdcard/Download/main.py${NC}"
-    echo -e "${GREEN}------------------------------------------${NC}"
-    # Kích hoạt alias ngay lập tức
-    source ~/.bashrc
+    # Kiểm tra xem có bị tải nhầm file 404 không
+    if grep -q "404: Not Found" "$FILE_PATH"; then
+        echo "Lỗi: Link GitHub vẫn sai (404). Hãy kiểm tra lại tên file trên GitHub là main.py hay pn.py!"
+        rm $FILE_PATH
+    else
+        echo "------------------------------------------"
+        echo "   DA CAI DAT XONG TOOL REJOIN BY PN      "
+        echo "   Lenh chay: python /sdcard/Download/pn.py"
+        echo "------------------------------------------"
+    fi
 else
-    echo -e "${RED}Loi: Khong the tai file main.py tu GitHub.${NC}"
-    echo -e "${RED}Vui long kiem tra link RAW: $DOWNLOAD_URL${NC}"
+    echo "Loi: Khong the tai file!"
 fi
